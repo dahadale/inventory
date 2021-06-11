@@ -36,6 +36,8 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ['code','name','description']
     search_fields = ['code']
 
+
+
 # Register your models here.
 
 
