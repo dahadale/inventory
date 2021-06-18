@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Consumable,Location,LocationConsumable,Movement,Course
+from .models import Consumable,Location,LocationConsumable,Entry,Course,Exit,Order
 
 class ConsumableSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,12 +24,20 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = ['code','name','description']
 
-class MovementEntrySerializer(serializers.ModelSerializer):
+class EntrySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Movement
-        fields = ['movement_type','date','consumable','purchase_order','lot','owner','date_shelflife','quantity']
+        model = Entry
+        fields = ['count','date','part_number','purchase_order','lot','owner','date_shelflife','quantity']
 
-class MovementExitSerializer(serializers.ModelSerializer):
+class ExitSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Movement
-        fields = ['movement_type','date','consumable','purchase_order','lot','owner','date_shelflife','quantity']
+        model = Exit
+        fields = ['count','date','order','owner','lot','user_deliver','observations']
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['count','date','order','lot','course_code','course_number','quantity','user_requesting','status']
+
+   
+  

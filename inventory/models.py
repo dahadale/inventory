@@ -2,39 +2,13 @@ from django.db import models
 
 # Create your modelse here.
 
+
 class Owner(models.Model):
     code = models.CharField(max_length=10)
     name = models.CharField(max_length=30)
     def __str__(self):
         return self.code + ' | ' + self.name
 
-class Movement(models.Model):   
-    MOVEMENT_TYPE_CHOICES = [
-        ('entry', 'Entrada'),
-        ('exit', 'Salida'),
-       ]
-    movement_type = models.CharField(
-        max_length=10,
-        choices=MOVEMENT_TYPE_CHOICES,
-        default= 'exit',
-    )
-    date = models.DateField(auto_now_add=True)
-    course = models.CharField(max_length=100,blank=True,null=True)
-    consumable = models.ForeignKey('Consumable', on_delete=models.CASCADE)
-    purchase_order = models.CharField(max_length=10)
-    lot = models.CharField(max_length=20,blank=True,null=True)
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE,blank=True)
-    date_shelflife = models.DateField(blank=True,null=True)
-    quantity = models.IntegerField()
-    user_requesting = models.CharField(max_length=20)
-    user_deliver = models.CharField(max_length=20)
-    login_user = models.CharField(max_length=20)
-    count = models.IntegerField(blank=True,null=True)
-
-
-
-    def __str__(self):
-        return self.movement_type + '-' + self.consumable.part_number
 
 class Consumable(models.Model):
     part_number = models.CharField(max_length=50)
@@ -63,11 +37,53 @@ class Course(models.Model):
     code = models.CharField(max_length=15)
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
+    def __str__(self):
+        return self.code
 
+class Entry(models.Model):   
+   
+    count = models.AutoField(primary_key=True)
+    part_number = models.ForeignKey('Consumable',on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    purchase_order = models.CharField(max_length=10)
+    lot = models.CharField(max_length=20,blank=True,null=True)
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE,blank=True)
+    date_shelflife = models.DateField(blank=True,null=True)
+    quantity = models.IntegerField()
+    login_user = models.CharField(max_length=20)
+    picture = models.CharField(max_length=300)
+    def __str__(self):
+        return self.part_number.part_number
 
+class Exit(models.Model):
 
+    count = models.AutoField(primary_key=True)
+    date = models.DateField(auto_now_add=True)
+    order = models.ForeignKey('Order', on_delete=models.CASCADE)
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE,blank=True)
+    lot = models.CharField(max_length=20,blank=True,null=True)
+    user_deliver = models.CharField(max_length=20)
+    observations = models.CharField(max_length=250)
+    def __str__(self):
+        return self.part_number.part_number
+   
 
-
+class Order(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pendiente'),
+        ('declined', 'Cancelado'),
+        ('delivered', 'Entregado'),
+    )
+    count = models.AutoField(primary_key=True)
+    part_number = models.ForeignKey('Consumable', on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    course_code = models.ForeignKey('Course', on_delete=models.CASCADE)
+    course_number = models.CharField(max_length=20,blank=True,null=True)
+    quantity = models.IntegerField()
+    user_requesting = models.CharField(max_length=20)
+    status = models.CharField(max_length=30,choices = STATUS_CHOICES,default='pending')
+    def __str__(self):
+        return self.part_number.part_number + ' | ' + self.course_code.code + ' | ' + self.user_requesting
 
 
 

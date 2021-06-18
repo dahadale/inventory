@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Consumable,Movement,Owner,Location,LocationConsumable,Course
+from .models import Consumable,Owner,Location,LocationConsumable,Course,Entry
 
 
 @admin.register(Consumable)
@@ -11,10 +11,10 @@ class ConsumableAdmin(admin.ModelAdmin):
     search_fields = ['part_number']
     
 
-@admin.register(Movement)
-class MovementAdmin(admin.ModelAdmin):
-    list_display = ['movement_type', 'date', 'consumable']
-    raw_id_fields = ['consumable']
+@admin.register(Entry)
+class EntryAdmin(admin.ModelAdmin):
+    list_display = ['count', 'date', 'part_number']
+    raw_id_fields = ['part_number']
 
 @admin.register(Owner)
 class OwnerAdmin(admin.ModelAdmin):
