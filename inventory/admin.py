@@ -13,7 +13,7 @@ class ConsumableAdmin(admin.ModelAdmin):
 
 @admin.register(Entry)
 class EntryAdmin(admin.ModelAdmin):
-    list_display = ['count', 'date', 'part_number']
+    list_display = ['count_entry', 'date', 'part_number']
     raw_id_fields = ['part_number']
 
 @admin.register(Owner)

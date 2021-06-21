@@ -42,7 +42,7 @@ class Course(models.Model):
 
 class Entry(models.Model):   
    
-    count = models.AutoField(primary_key=True)
+    count_entry = models.AutoField(primary_key=True)
     part_number = models.ForeignKey('Consumable',on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     purchase_order = models.CharField(max_length=10)
@@ -57,9 +57,9 @@ class Entry(models.Model):
 
 class Exit(models.Model):
 
-    count = models.AutoField(primary_key=True)
+    count_exit = models.AutoField(primary_key=True)
     date = models.DateField(auto_now_add=True)
-    order = models.ForeignKey('Order', on_delete=models.CASCADE)
+    count_requisition = models.ForeignKey('Requisition', on_delete=models.CASCADE)
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE,blank=True)
     lot = models.CharField(max_length=20,blank=True,null=True)
     user_deliver = models.CharField(max_length=20)
@@ -68,15 +68,15 @@ class Exit(models.Model):
         return self.part_number.part_number
    
 
-class Order(models.Model):
+class Requisition(models.Model):
     STATUS_CHOICES = (
         ('pending', 'Pendiente'),
         ('declined', 'Cancelado'),
         ('delivered', 'Entregado'),
     )
-    count = models.AutoField(primary_key=True)
+    count_requisition = models.AutoField(primary_key=True)
     part_number = models.ForeignKey('Consumable', on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
+    date_requisition = models.DateField(auto_now_add=True)
     course_code = models.ForeignKey('Course', on_delete=models.CASCADE)
     course_number = models.CharField(max_length=20,blank=True,null=True)
     quantity = models.IntegerField()
