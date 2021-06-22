@@ -61,9 +61,10 @@ class Exit(models.Model):
     date = models.DateField(auto_now_add=True)
     count_requisition = models.ForeignKey('Requisition', on_delete=models.CASCADE)
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE,blank=True)
+    purchase_order = models.CharField(max_length=10)
     lot = models.CharField(max_length=20,blank=True,null=True)
     user_deliver = models.CharField(max_length=20)
-    observations = models.CharField(max_length=250)
+    observations = models.TextField(max_length=250)
     def __str__(self):
         return self.part_number.part_number
    
