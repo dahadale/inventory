@@ -1,6 +1,13 @@
 from django.contrib import admin
 
-from .models import Consumable,Owner,Location,LocationConsumable,Course,Entry
+from .models import (
+    Consumable,
+    Owner,
+    Location,
+    LocationConsumable,
+    Course,
+    Entry,
+    Requisition)
 
 
 @admin.register(Consumable)
@@ -35,6 +42,11 @@ class LocationConsumableAdmin(admin.ModelAdmin):
 class CourseAdmin(admin.ModelAdmin):
     list_display = ['code','name','description']
     search_fields = ['code']
+
+@admin.register(Requisition)
+class RequisitionAdmin(admin.ModelAdmin):
+    list_display = ['count_requisition', 'part_number', 'date_requisition', 'course_code', 'course_number', 'quantity', 'user_requesting', 'status']
+    
 
 
 
