@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import CustomUser
+
 # Create your modelse here.
 
 
@@ -81,7 +83,7 @@ class Requisition(models.Model):
     course_code = models.ForeignKey('Course', on_delete=models.CASCADE)
     course_number = models.CharField(max_length=20,blank=True,null=True)
     quantity = models.IntegerField()
-    user_requesting = models.CharField(max_length=20)
+    user_requesting = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     status = models.CharField(max_length=30,choices = STATUS_CHOICES,default='pending')
     def __str__(self):
         return self.part_number.part_number + ' | ' + self.course_code.code + ' | ' + self.user_requesting
