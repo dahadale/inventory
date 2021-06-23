@@ -60,7 +60,7 @@ class Exit(models.Model):
     count_exit = models.AutoField(primary_key=True)
     date = models.DateField(auto_now_add=True)
     count_requisition = models.ForeignKey('Requisition', on_delete=models.CASCADE)
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE,blank=True)
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE,blank=True, null=True)
     purchase_order = models.CharField(max_length=10)
     lot = models.CharField(max_length=20,blank=True,null=True)
     user_deliver = models.CharField(max_length=20)
