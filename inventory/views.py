@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from rest_framework import generics
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 from .models import Consumable,Location,LocationConsumable,Course,Requisition,Exit,Entry
 from .serializers import ConsumableSerializer,LocationSerializer,LocationConsumableSerializer,CourseSerializer,EntrySerializer,ExitSerializer,RequisitionSerializer
 from rest_framework.views import APIView
@@ -27,6 +27,8 @@ class CourseList(generics.ListCreateAPIView):
 
 class EntryView(APIView):
     serializer_class = EntrySerializer
+    permission_classes = (IsAuthenticated,)
+
     def post(self, request, format=None):
         data = request.data
         serializer = EntrySerializer(data=data)
@@ -35,13 +37,26 @@ class EntryView(APIView):
         else:
             return Response(serializer.errors)
         return Response(serializer.data)
-        import pdb; pdb.set_trace()
+
 
 class RequisitionList(generics.ListCreateAPIView):
     queryset = Requisition.objects.all()
     serializer_class = RequisitionSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def create(self, request, **kwargs):
+        request.data.update({'user_requesting': request.user.pk})
+        data = request.data
+        serializer = RequisitionSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response(serializer.errors)
+        
+        return Response(serializer.data)
 
 
 class ExitList(generics.ListCreateAPIView):
     queryset = Exit.objects.all()
     serializer_class = ExitSerializer
+    permission_classes = (IsAuthenticated,)
