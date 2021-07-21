@@ -72,6 +72,10 @@ class Exit(models.Model):
    
 
 class Requisition(models.Model):
+    '''
+    Salidas
+    '''
+    
     STATUS_CHOICES = (
         ('pending', 'Pendiente'),
         ('declined', 'Cancelado'),
