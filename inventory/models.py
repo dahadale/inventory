@@ -90,7 +90,8 @@ class Requisition(models.Model):
     user_requesting = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     status = models.CharField(max_length=30,choices = STATUS_CHOICES,default='pending')
     def __str__(self):
-        return self.part_number.part_number + ' | ' + self.course_code.code + ' | ' + self.user_requesting
+        return self.part_number.part_number + ' | ' + self.course_code.code + ' | ' + self.user_requesting.username
+        # return self.part_number.part_number + ' | ' + self.course_code.code 
 
 
 

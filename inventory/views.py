@@ -45,6 +45,8 @@ class RequisitionList(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
 
     def create(self, request, **kwargs):
+
+        import pdb; pdb.set_trace()
         request.data.update({'user_requesting': request.user.pk})
         data = request.data
         serializer = RequisitionSerializer(data=data)
